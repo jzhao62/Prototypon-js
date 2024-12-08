@@ -1,0 +1,10 @@
+{
+  "name": "writer",
+
+  "type": "module",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "writer": "^1.0.0"
+  }
+}
