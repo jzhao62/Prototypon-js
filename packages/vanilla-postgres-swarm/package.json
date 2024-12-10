@@ -1,5 +1,12 @@
 {
   "type": "module",
 
-  "dependencies":{"pg":"^8.13.1"}}
+  "dependencies":{"pg":"^8.13.1"},
+
+    "scripts": {
+        "start write-benchmark": "node script/write-benchmark.js",
+        "clear": "node script/clear.js"
+    }
+
+}
 
