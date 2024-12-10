@@ -1,6 +1,6 @@
-import client from '../client.js';
+import clients from '../client.js';
 
-const clearTable = async () => {
+const clearTable = async (client) => {
   try {
     await client.connect();
     await client.query('DELETE FROM test_table');
@@ -14,4 +14,6 @@ const clearTable = async () => {
   }
 };
 
-clearTable();
+clients.forEach((client) => {
+  clearTable(client);
+});

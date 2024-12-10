@@ -1,0 +1,44 @@
+version: "3.9"
+services:
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+
+  postgres:
+    image: postgres:12
+    container_name: postgres-container
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: postgres
+    deploy:
+      resources:
+        limits:
+          cpus: "0.05"
+          memory: 50M
+
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter
+    ports:
+      - "9187:9187"
+    environment:
+      DATA_SOURCE_NAME: "postgresql://postgres:postgrespassword@postgres:5432/postgres?sslmode=disable"
+    links:
+      - postgres
+      - prometheus
+
+
+volumes:
+  postgres-data:

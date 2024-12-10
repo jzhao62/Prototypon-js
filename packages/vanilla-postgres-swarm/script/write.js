@@ -1,5 +1,5 @@
-import client from '../client.js';
-const concurrentWrites = 10000; // Adjust this number to test different levels of concurrency
+import clients from '../client.js';
+const concurrentWrites = 50000; // Adjust this number to test different levels of concurrency
 
 async function performWriteOperation(client, id) {
   const query =
@@ -15,7 +15,7 @@ async function performWriteOperation(client, id) {
   }
 }
 
-async function concurrentWrite(concurrentWrites) {
+async function concurrentWrite(client, concurrentWrites) {
   await client.connect();
   const writePromises = [];
   console.time('Total write time');
@@ -28,4 +28,6 @@ async function concurrentWrite(concurrentWrites) {
   console.log(`Completed ${concurrentWrites} concurrent write operations`);
 }
 
-concurrentWrite(concurrentWrites);
+clients.forEach((client) => {
+  concurrentWrite(client, concurrentWrites);
+});
