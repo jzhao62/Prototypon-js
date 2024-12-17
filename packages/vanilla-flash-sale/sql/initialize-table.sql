@@ -3,3 +3,6 @@ CREATE TABLE test_table (
   value TEXT NOT NULL,
 timestamp TIMESTAMP NOT NULL DEFAULT NOW()
 );
+
+
+

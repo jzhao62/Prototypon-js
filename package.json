@@ -1,4 +1,10 @@
 {
+
+  "name": "vanilla-everything",
+  "private": true,
+    "workspaces": [
+      "packages/vanilla-flash-sale"
+    ],
   "scripts": {
     "build": "turbo run build",
     "lint": "eslint .",
