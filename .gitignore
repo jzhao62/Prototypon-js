@@ -1,6 +1,5 @@
-.turbo
-.idea
 node_modules
-packages/*/node_modules
-packages/*/dist
-packages/experiment
+**/dist
+results
+.nyc_output
+*.tsbuildinfo

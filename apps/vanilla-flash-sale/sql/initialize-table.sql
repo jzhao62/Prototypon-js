@@ -1,0 +1,8 @@
+CREATE TABLE test_table (
+  id SERIAL PRIMARY KEY,
+  value TEXT NOT NULL,
+timestamp TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+
+

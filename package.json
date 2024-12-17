@@ -1,26 +1,23 @@
 {
-
-  "name": "vanilla-everything",
+  "name": "ts-monorepo",
+  "description": "Template for setting up a TypeScript monorepo",
   "private": true,
-    "workspaces": [
-      "packages/vanilla-flash-sale"
-    ],
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
   "scripts": {
-    "build": "turbo run build",
-    "lint": "eslint .",
-    "test": "turbo run test",
-    "format": "prettier --write ."
+    "docs": "doctoc --title '**Table of content**' README.md",
+    "clean": "pnpm run -r clean",
+    "build": "pnpm run -r build",
+    "test": "pnpm run -r test",
+    "lint": "eslint --ext js,ts,tsx ."
   },
-  "type": "module",
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^8.17.0",
-    "@typescript-eslint/parser": "^8.17.0",
-    "eslint": "^8.50.0",
-    "prettier": "^3.4.2",
-    "turbo": "^2.3.3"
-  },
-  "dependencies": {
-    "reader": "file:./packages/reader",
-    "writer": "file:./packages/writer"
+    "@nighttrax/eslint-config-tsx": "~12.0.0-alpha.2",
+    "doctoc": "~2.2.0",
+    "eslint": "~8.57.0",
+    "eslint-plugin-import": "~2.31.0",
+    "typescript": "~4.9.0"
   }
 }

@@ -1,12 +1,12 @@
 {
+  "extends": "./tsconfig.build.json",
+
   "compilerOptions": {
-    "target": "es6",
-    "module": "ESNext",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
-  },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"]
+    "baseUrl": ".",
+    "paths": {
+      "@nighttrax/components/*": ["packages/components/src/*"],
+      "@nighttrax/*": ["packages/*/src"]
+    },
+    "noEmit": true
+  }
 }
