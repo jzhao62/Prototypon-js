@@ -1,9 +1,5 @@
 version: "3.9"
 services:
-
-
-#Reads: Approximately 10-50 operations per second
-#Writes: Approximately 5-20 operations per second
   postgres:
     image: postgres:12
     container_name: postgres-container
@@ -21,8 +17,6 @@ services:
           cpus: "0.05"
           memory: 50M
 
-#Reads: Approximately 100-500 operations per second
-#Writes: Approximately 50-200 operations per second in theory
   redis:
     image: redis:alpine
     container_name: redis-container
@@ -34,30 +28,52 @@ services:
           cpus: "0.05"
           memory: 50M
 
-  grafana:
-    image: grafana/grafana
-    ports:
-      - "3000:3000"
-
-  prometheus:
-    image: prom/prometheus
-    ports:
-      - "9090:9090"
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
-
-
-
-  postgres-exporter:
-    image: prometheuscommunity/postgres-exporter
-    ports:
-      - "9187:9187"
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch-wolfi:8.17.0
+    container_name: elasticsearch-container
     environment:
-      DATA_SOURCE_NAME: "postgresql://postgres:postgrespassword@postgres:5432/postgres?sslmode=disable"
-    links:
-      - postgres
-      - prometheus
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 1G
 
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.16.2
+    container_name: logstash-container
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - logstash-data:/usr/share/logstash/data
+    depends_on:
+      - elasticsearch
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 1G
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.16.2
+    container_name: kibana-container
+    ports:
+      - "5601:5601"
+    #    volumes:
+    #      - kibana-data:/usr/share/kibana/data
+    depends_on:
+      - elasticsearch
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 1G
 
 volumes:
   postgres-data:
+  logstash-data:
+#  kibana-data:
