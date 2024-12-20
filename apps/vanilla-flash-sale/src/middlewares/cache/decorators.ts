@@ -1,8 +1,6 @@
 import RedisService from './RedisService';
 
-function enableWriteCache(
-  policy: 'write-through' | 'write-around' | 'write-back',
-) {
+function cacheWrite(policy: 'write-through' | 'write-around' | 'write-back') {
   return function (
     target: any,
     propertyKey: string,
@@ -19,16 +17,12 @@ function enableWriteCache(
         const redisService = RedisService.getInstance();
 
         if (policy === 'write-through') {
-          // Write-through: Update the cache immediately
           await redisService.setCacheValue(itemId, result.remainingQuantity);
         } else if (policy === 'write-around') {
           // Write-around: Do not update the cache, let the cache be updated on read
           // No action needed here
         } else if (policy === 'write-back') {
-          // Write-back: Defer the cache update
-          setTimeout(async () => {
-            await redisService.setCacheValue(itemId, result.remainingQuantity);
-          }, 0);
+          throw new Error('write-back policy not implemented');
         }
       }
 
@@ -37,4 +31,4 @@ function enableWriteCache(
   };
 }
 
-export { enableWriteCache };
+export { cacheWrite };
