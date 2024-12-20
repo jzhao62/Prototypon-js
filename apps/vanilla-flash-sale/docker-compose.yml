@@ -1,6 +1,9 @@
 version: "3.9"
 services:
 
+
+#Reads: Approximately 10-50 operations per second
+#Writes: Approximately 5-20 operations per second
   postgres:
     image: postgres:12
     container_name: postgres-container
@@ -12,6 +15,19 @@ services:
     environment:
       POSTGRES_PASSWORD: postgrespassword
       POSTGRES_DB: postgres
+    deploy:
+      resources:
+        limits:
+          cpus: "0.05"
+          memory: 50M
+
+#Reads: Approximately 100-500 operations per second
+#Writes: Approximately 50-200 operations per second in theory
+  redis:
+    image: redis:alpine
+    container_name: redis-container
+    ports:
+      - "6379:6379"
     deploy:
       resources:
         limits:

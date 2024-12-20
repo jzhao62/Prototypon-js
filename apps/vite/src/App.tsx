@@ -1,8 +1,8 @@
-import { Button } from "@nighttrax/components/button";
-import { meaningOfLife } from "@nighttrax/foo";
-import React, { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import "./App.css";
+import { Button } from '@nighttrax/components/button';
+import { meaningOfLife } from '@nighttrax/foo';
+import React, { useState } from 'react';
+import reactLogo from './assets/react.svg';
+import './App.css';
 
 const App = () => {
   const [count, setCount] = useState(meaningOfLife);

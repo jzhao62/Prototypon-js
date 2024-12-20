@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="script.ts" type="NodeJSConfigurationType" node-parameters="--require ts-node/register" path-to-js-file="$PROJECT_DIR$/apps/vanilla-flash-sale/src/middlewares/cache/RedisService.ts" working-dir="$PROJECT_DIR$/apps/vanilla-flash-sale">
+    <method v="2" />
+  </configuration>
+</component>

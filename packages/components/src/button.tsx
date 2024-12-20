@@ -1,6 +1,6 @@
 /* eslint-disable no-alert */
-import { meaningOfLife } from "@nighttrax/foo";
-import React, { FC } from "react";
+import { meaningOfLife } from '@nighttrax/foo';
+import React, { FC } from 'react';
 
 export const Button: FC = () => (
   <button

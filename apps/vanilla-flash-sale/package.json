@@ -1,22 +1,32 @@
 {
+  "name": "vanilla-flash-sale",
+  "private": true,
+  "version": "1.0.0",
   "type": "module",
+  "scripts": {
+    "start server": "tsx src/server.js",
+    "start": "tsx src/index.ts",
+    "start write-benchmark": "node script/write-benchmark.js",
+    "clear": "node script/clear.js"
+  },
   "dependencies": {
+    "@nighttrax/foo": "workspace:*",
+    "async-mutex":"^0.5.0",
     "axios": "^1.7.9",
     "esm": "^3.2.25",
     "express": "^4.21.2",
     "pg": "^8.13.1",
-    "winston": "^3.17.0"
+    "winston": "^3.17.0",
+    "redis": "^4.7.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.26.4",
-    "@babel/core": "^7.26.0",
-    "@babel/plugin-proposal-decorators": "^7.25.9",
-    "@babel/preset-env": "^7.26.0",
-    "@babel/register": "^7.25.9"
-  },
-  "scripts": {
-    "start write-benchmark": "node script/write-benchmark.js",
-    "clear": "node script/clear.js",
-    "start": "node -r esm -r @babel/register -e \"import('./server.js')\""
+    "@types/node": "~22.10.0",
+    "@types/pg": "^8.11.10",
+    "@type-cacheable/core": "^14.1.0",
+    "@type-cacheable/redis-adapter": "^17.2.0",
+    "tsx": "^4.19.2",
+    "tsconfig-paths": "~4.2.0",
+    "typescript": "~5.7.2",
+    "vitest": "^2.1.8 "
   }
 }
