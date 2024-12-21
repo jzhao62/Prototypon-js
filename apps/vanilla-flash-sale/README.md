@@ -5,3 +5,10 @@ provision postgres resource as high performance vs lite performance to benchmark
 - we call such low capacity database MySql
 
 write speed: ~170/s
+
+
+
+
+- Configure ELK stack
+  - docker compose 
+  - configure ELK https://www.elastic.co/guide/en/elasticsearch/reference/current/create-enrollment-token.html

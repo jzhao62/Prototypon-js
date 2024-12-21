@@ -1,5 +1,5 @@
 import { PurchaseStrategy, TransactionResponse } from './PurchaseStrategy';
-import { logDataBaseWrite } from '../../util/logger';
+import { logDataBaseWrite } from '../../util/log';
 import { DataBaseError, InSufficientStockError } from './Errors';
 import { cacheWrite } from '../middlewares/cache/decorators';
 

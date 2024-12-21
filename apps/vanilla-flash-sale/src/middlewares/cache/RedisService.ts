@@ -1,5 +1,5 @@
 import { createClient, RedisClientType } from 'redis';
-import { logCache } from '../../../util/logger';
+import { logCache } from '../../../util/log';
 class RedisService {
   private static instance: RedisService;
 

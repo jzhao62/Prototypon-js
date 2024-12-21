@@ -39,7 +39,7 @@ async function simulateConcurrentPurchases(writePerSec, durationSec) {
   console.log(`Completed purchase operations in ${durationSec} seconds`);
 }
 
-const WPS = 10;
-const DURATION = 5;
+const WPS = 3;
+const DURATION = 1;
 
 simulateConcurrentPurchases(WPS, DURATION); // Example usage with 10 writes per second for 10 seconds

@@ -1,6 +1,6 @@
 import express from 'express';
 import { LockFreeStrategy } from './model/LockFreeStrategy.js';
-import { logger } from '../util/logger';
+import { logger } from '../util/log.js';
 
 const app = express();
 const port = 8080;
