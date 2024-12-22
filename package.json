@@ -1,6 +1,6 @@
 {
-  "name": "ts-monorepo",
-  "description": "Template for setting up a TypeScript monorepo",
+  "name": "prototype-shop-js",
+  "description": "prototype project, ideas, components written in JS",
   "private": true,
   "workspaces": [
     "packages/*",
