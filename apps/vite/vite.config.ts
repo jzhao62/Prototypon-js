@@ -8,10 +8,9 @@ export default defineConfig({
     react(),
     tsconfigPaths(),
     VitePluginWatcher({
-      watch: ['../packages/foo/src/**/*', '../packages/components/src/**/*'],
+      watch: ['../packages/components/src/**/*', '../packages/foo/src/**/*'],
       onChange: () => {
         console.log('Workspace package updated, rebuilding...');
-        // Trigger a rebuild or any other action
       },
     }),
   ],
