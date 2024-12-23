@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  pgmaster:
+    image: postgres:latest
+    container_name: pgmaster
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: masterpass
+    volumes:
+      - pgmaster_data:/var/lib/postgresql/data
+    networks:
+      - pgnet
+    deploy:
+      resources:
+        limits:
+          cpus: '0.1'
+          memory: 100M
+
+  pgslave1:
+    image: postgres:latest
+    container_name: pgslave1
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: slavepass
+      POSTGRES_REPLICATION_ROLE: 'replica'
+      POSTGRES_MASTER_HOST: pgmaster
+      POSTGRES_MASTER_PORT: 5432
+    volumes:
+      - pgslave1_data:/var/lib/postgresql/data
+    networks:
+      - pgnet
+    deploy:
+      resources:
+        limits:
+          cpus: '0.1'
+          memory: 100M
+
+  pgslave2:
+    image: postgres:latest
+    container_name: pgslave2
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: slavepass
+      POSTGRES_REPLICATION_ROLE: 'replica'
+      POSTGRES_MASTER_HOST: pgmaster
+      POSTGRES_MASTER_PORT: 5432
+    volumes:
+      - pgslave2_data:/var/lib/postgresql/data
+    networks:
+      - pgnet
+    deploy:
+      resources:
+        limits:
+          cpus: '0.1'
+          memory: 100M
+
+networks:
+  pgnet:
+    driver: bridge
+
+volumes:
+  pgmaster_data:
+  pgslave1_data:
+  pgslave2_data:

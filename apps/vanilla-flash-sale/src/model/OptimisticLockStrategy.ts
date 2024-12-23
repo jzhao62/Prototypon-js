@@ -1,5 +1,5 @@
 import { Client } from 'pg';
-import PurchaseStrategy from './PurchaseStrategy';
+import PurchaseStrategy from './DataBaseStrategy';
 
 class OptimisticLockStrategy extends PurchaseStrategy {
   async processPurchase(

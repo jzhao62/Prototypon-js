@@ -1,5 +1,5 @@
 import { Mutex } from 'async-mutex';
-import PurchaseStrategy from './PurchaseStrategy';
+import PurchaseStrategy from './DataBaseStrategy';
 
 // const lock = new Mutex();
 

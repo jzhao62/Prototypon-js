@@ -1,47 +1,25 @@
 import winston from 'winston';
+// import PostgresTransport from 'winston-postgres-transport';
 
-import { Logger } from 'winston';
-import { PostgresTransport } from '@innova2/winston-pg';
-// const logger = winston.createLogger({
-//   level: 'info',
-//   format: winston.format.combine(
-//     winston.format.timestamp(),
-//     winston.format.printf(
-//       ({ timestamp, level, message }) => `${timestamp} [${level}]: ${message}`,
-//     ),
-//   ),
-//   transports: [
-//     new winston.transports.Console(),
-//     new winston.transports.File({
-//       filename: 'combined.log',
-//       handleExceptions: true,
-//     }),
-//   ],
-// });
+const metadata = {
+  userId: '12345',
+  ipAddress: '192.168.1.1',
+  loginTime: new Date().toISOString(),
+};
+
+// const postgresUrl =
+//   'postgresql://postgres:logpassword@localhost:5433/postgres?schema=public';
 
 const logger = winston.createLogger({
   level: 'info',
-  format: winston.format.combine(
-    winston.format.timestamp(),
-    winston.format.printf(
-      ({ timestamp, level, message, ...metadata }) =>
-        `${timestamp} [${level}]: ${message} ${JSON.stringify(metadata)}`,
-    ),
-  ),
+  // format: winston.format.json(),
+  defaultMeta: { service: 'database-service' },
   transports: [
-    new PostgresTransport({
-      connectionString:
-        'postgresql://postgres:logpassword@localhost:5433/postgres?schema=public',
-      maxPool: 10,
-      level: 'info',
-      tableName: 'logs',
-      tableColumns: [
-        { name: 'id', dataType: 'SERIAL', primaryKey: true },
-        { name: 'timestamp', dataType: 'TIMESTAMPTZ', notNull: true },
-        { name: 'level', dataType: 'VARCHAR(10)', notNull: true },
-        { name: 'message', dataType: 'TEXT', notNull: true },
-        { name: 'metadata', dataType: 'JSONB' },
-      ],
+    new winston.transports.Console(),
+    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    new winston.transports.File({
+      filename: 'combined.log',
+      handleExceptions: true,
     }),
   ],
 });
@@ -56,17 +34,18 @@ function logDataBaseWrite(
   // eslint-disable-next-line no-param-reassign
   descriptor.value = async function (...args: any[]) {
     const [itemId, quantity] = args;
-    logger.info(
-      `Attempting to purchase: itemId=${itemId}, quantity=${quantity}`,
-    );
 
     try {
+      logger.info(
+        `user try to purchase itemId=${itemId}, quantity=${quantity}`,
+        { metadata },
+      );
       const resp = await originalMethod.apply(this, args);
-      logger.info('Purchase successful', resp);
+      logger.info('Purchase successful', metadata);
 
       return resp;
     } catch (err: any) {
-      logger.error(`Purchase failed: ${err.message}`);
+      logger.error(`Purchase failed: ${err.message}`, { err });
     }
   };
 }
@@ -79,18 +58,21 @@ function logCache(operation: 'read' | 'write') {
   ): void {
     const originalMethod = descriptor.value;
 
-    // eslint-disable-next-line no-param-reassign
     descriptor.value = async function (...args: any[]) {
       const [itemId] = args;
-      logger.info(`Checking cache for item: ${itemId} (${operation})`);
 
       try {
+        logger.info(`Checking cache for item: ${itemId} (${operation})`, {
+          itemId,
+          operation,
+        });
+
         const resp = await originalMethod.apply(this, args);
-        logger.info(`Cache ${operation} successful`, resp);
+        logger.info(`Cache ${operation} successful`, { resp });
 
         return resp;
       } catch (err: any) {
-        logger.error(`Cache ${operation} failed: ${err.message}`);
+        logger.error(`Cache ${operation} failed: ${err.message}`, { err });
       }
     };
   };

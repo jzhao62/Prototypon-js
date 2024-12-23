@@ -1,4 +1,4 @@
-import PurchaseStrategy from './PurchaseStrategy';
+import PurchaseStrategy from './DataBaseStrategy';
 import { Client } from 'pg';
 
 class PessimisticLockStrategy extends PurchaseStrategy {

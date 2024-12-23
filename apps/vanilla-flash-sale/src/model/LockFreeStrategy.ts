@@ -1,38 +1,32 @@
-import { PurchaseStrategy, TransactionResponse } from './PurchaseStrategy';
+import { DataBaseStrategy, TransactionResponse } from './DataBaseStrategy';
 import { logDataBaseWrite } from '../../util/log';
 import { DataBaseError, InSufficientStockError } from './Errors';
 import { cacheWrite } from '../middlewares/cache/decorators';
 
-export class LockFreeStrategy extends PurchaseStrategy {
+export class LockFreeStrategy extends DataBaseStrategy {
   @cacheWrite('write-through')
   @logDataBaseWrite
   async processPurchase(
     itemId: number,
     quantity: number,
   ): Promise<TransactionResponse> {
-    const updateQuery = `
-      UPDATE flash_sale_items
-      SET quantity = quantity - $1
-      WHERE id = $2 AND quantity >= $1
-    `;
-    const selectQuery = `
-      SELECT quantity
-      FROM flash_sale_items
-      WHERE id = $1
+    const combinedQuery = `
+        UPDATE flash_sale_items
+        SET quantity = quantity - $1
+        WHERE id = $2 AND quantity >= $1
+        RETURNING quantity
     `;
     const updateValues = [quantity, itemId];
     const client = await this._getDatabaseClient();
 
     try {
-      const res = await client.query(updateQuery, updateValues);
+      const res = await client.query(combinedQuery, updateValues);
 
       if (res.rowCount === 0) {
-        throw new InSufficientStockError('Insufficient stock');
+        throw new InSufficientStockError('Insufficient quantity remaining');
       }
 
-      const selectRes = await client.query(selectQuery, [itemId]);
-      const remainingQuantity = selectRes.rows[0].quantity as number;
-      console.log(`Current remaining quantity: ${remainingQuantity}`);
+      const remainingQuantity = res.rows[0].quantity as number;
 
       return {
         message: 'Purchase successful',
