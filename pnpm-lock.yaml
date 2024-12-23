@@ -145,6 +145,46 @@ importers:
         specifier: ~4.2.0
         version: 4.2.0(typescript@4.9.3)(vite@5.4.6(@types/node@22.10.1)(terser@5.37.0))
 
+  apps/vite-2:
+    dependencies:
+      '@nighttrax/components':
+        specifier: workspace:*
+        version: link:../../packages/components
+      '@nighttrax/foo':
+        specifier: workspace:*
+        version: link:../../packages/foo
+      react:
+        specifier: ~18.3.0
+        version: 18.3.1
+      react-dom:
+        specifier: ~18.3.0
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@types/react':
+        specifier: ~18.3.0
+        version: 18.3.3
+      '@types/react-dom':
+        specifier: ~18.3.0
+        version: 18.3.0
+      '@vitejs/plugin-react':
+        specifier: ~4.3.0
+        version: 4.3.1(vite@5.4.6(@types/node@22.10.1)(terser@5.37.0))
+      rimraf:
+        specifier: ~6.0.0
+        version: 6.0.1
+      typescript:
+        specifier: ~4.9.3
+        version: 4.9.3
+      vite:
+        specifier: ~5.4.0
+        version: 5.4.6(@types/node@22.10.1)(terser@5.37.0)
+      vite-plugin-watcher:
+        specifier: ^0.1.3
+        version: 0.1.3
+      vite-tsconfig-paths:
+        specifier: ~4.2.0
+        version: 4.2.0(typescript@4.9.3)(vite@5.4.6(@types/node@22.10.1)(terser@5.37.0))
+
   packages/bar:
     dependencies:
       '@nighttrax/foo':
